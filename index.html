@@ -92,6 +92,89 @@
   .link.dimmed { stroke-opacity:0.04 !important; }
   .node-label { pointer-events:none; }
   .link-label { font-size:8px; fill:#555; pointer-events:none; }
+
+  /* 도움말 버튼 */
+  #help-btn {
+    width:28px; height:28px; border-radius:50%;
+    background:#1e2030; border:1px solid #3a3d50;
+    color:#888; font-size:14px; font-weight:700;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s; flex-shrink:0; user-select:none;
+  }
+  #help-btn:hover { background:#2a2d3a; color:#fff; border-color:#7c8cf8; }
+
+  /* 모달 오버레이 */
+  #modal-overlay {
+    position:fixed; inset:0; z-index:300;
+    background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center;
+  }
+  #modal-overlay.hidden { display:none; }
+
+  /* 모달 박스 */
+  #modal {
+    background:#13151f; border:1px solid #2a2d3a;
+    border-radius:14px; padding:28px 30px;
+    width:520px; max-width:92vw; max-height:88vh; overflow-y:auto;
+    box-shadow:0 20px 60px rgba(0,0,0,0.7);
+    position:relative;
+  }
+  #modal h2 { font-size:17px; font-weight:700; color:#fff; margin-bottom:4px; }
+  #modal .modal-sub { font-size:11px; color:#666; margin-bottom:20px; }
+  #modal .modal-close {
+    position:absolute; top:16px; right:18px;
+    cursor:pointer; color:#555; font-size:20px; line-height:1;
+    transition:color 0.2s;
+  }
+  #modal .modal-close:hover { color:#fff; }
+
+  .help-section { margin-bottom:18px; }
+  .help-section h3 {
+    font-size:11px; color:#7c8cf8; font-weight:700;
+    letter-spacing:0.08em; text-transform:uppercase;
+    margin-bottom:10px; padding-bottom:5px;
+    border-bottom:1px solid #1e2030;
+  }
+  .help-row {
+    display:flex; align-items:flex-start; gap:10px;
+    margin-bottom:8px; font-size:12px;
+  }
+  .help-key {
+    background:#1e2030; border:1px solid #2a2d3a;
+    border-radius:5px; padding:2px 8px; font-size:10px;
+    color:#c8d3f5; white-space:nowrap; flex-shrink:0; margin-top:1px;
+  }
+  .help-val { color:#aaa; line-height:1.5; }
+  .help-val strong { color:#e0e0e0; }
+
+  .node-type-row {
+    display:flex; align-items:center; gap:8px;
+    margin-bottom:7px; font-size:12px;
+  }
+  .nt-shape { width:16px; height:16px; flex-shrink:0; }
+  .nt-name { color:#e0e0e0; min-width:80px; font-size:11px; }
+  .nt-desc { color:#666; font-size:10px; }
+
+  .link-type-row {
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:7px; font-size:11px;
+  }
+  .lt-line { width:28px; height:2px; flex-shrink:0; }
+  .lt-name { color:#e0e0e0; min-width:60px; }
+  .lt-desc { color:#666; }
+
+  #modal-footer {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:22px; padding-top:16px; border-top:1px solid #1e2030;
+  }
+  #no-show-label { display:flex; align-items:center; gap:6px; cursor:pointer; font-size:11px; color:#666; user-select:none; }
+  #no-show-label:hover { color:#aaa; }
+  #modal-ok {
+    background:#7c8cf8; color:#fff; border:none; border-radius:7px;
+    padding:7px 20px; font-size:12px; font-weight:700;
+    cursor:pointer; transition:background 0.2s;
+  }
+  #modal-ok:hover { background:#6070e0; }
 </style>
 </head>
 <body>
@@ -110,6 +193,62 @@
   <div id="search-wrap">
     <input id="search-input" type="text" placeholder="법령명 검색..." oninput="searchNode(this.value)">
     <span id="node-count"></span>
+  </div>
+  <button id="help-btn" onclick="openModal()" title="사용법">?</button>
+</div>
+
+<!-- 도움말 모달 -->
+<div id="modal-overlay" class="hidden">
+  <div id="modal">
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <h2>교육공무원 인사 법령 관계도</h2>
+    <div class="modal-sub">2026 경상북도교육청 · 총 59개 법령 · 교육공무원법 중심 네트워크</div>
+
+    <div class="help-section">
+      <h3>기본 조작</h3>
+      <div class="help-row"><span class="help-key">마우스 휠</span><span class="help-val">화면 <strong>확대/축소</strong></span></div>
+      <div class="help-row"><span class="help-key">빈 화면 드래그</span><span class="help-val">화면 <strong>이동</strong></span></div>
+      <div class="help-row"><span class="help-key">노드 드래그</span><span class="help-val">노드를 원하는 위치로 <strong>고정</strong></span></div>
+      <div class="help-row"><span class="help-key">빈 화면 클릭</span><span class="help-val">선택 <strong>해제</strong></span></div>
+    </div>
+
+    <div class="help-section">
+      <h3>노드 탐색</h3>
+      <div class="help-row"><span class="help-key">마우스 오버</span><span class="help-val">법령 요약 설명 <strong>툴팁</strong> 표시</span></div>
+      <div class="help-row"><span class="help-key">노드 클릭</span><span class="help-val">우측 패널에 <strong>법령 상세 정보</strong> + 연결 법령 목록 표시<br><span style="color:#555">노드 안 숫자 = PDF 목차 번호</span></span></div>
+    </div>
+
+    <div class="help-section">
+      <h3>검색 · 필터</h3>
+      <div class="help-row"><span class="help-key">검색창</span><span class="help-val">법령명 또는 <strong>PDF 번호</strong> 입력 (예: <code style="background:#1e2030;padding:1px 4px;border-radius:3px;color:#7c8cf8">징계</code>, <code style="background:#1e2030;padding:1px 4px;border-radius:3px;color:#7c8cf8">25</code>)</span></div>
+      <div class="help-row"><span class="help-key">유형 버튼</span><span class="help-val">핵심·법률·대통령령·부령·예규·경북지역 <strong>표시/숨기기</strong></span></div>
+    </div>
+
+    <div class="help-section">
+      <h3>노드 유형</h3>
+      <div class="node-type-row"><svg class="nt-shape" viewBox="-8 -8 16 16"><circle r="6" fill="#e05252" fill-opacity="0.4" stroke="#e05252" stroke-width="2"/></svg><span class="nt-name" style="color:#e05252">핵심법률</span><span class="nt-desc">교육공무원법 (중심)</span></div>
+      <div class="node-type-row"><svg class="nt-shape" viewBox="-8 -8 16 16"><rect x="-6" y="-4" width="12" height="8" rx="2" fill="#7c8cf8" fill-opacity="0.4" stroke="#7c8cf8" stroke-width="1.5"/></svg><span class="nt-name" style="color:#7c8cf8">법률</span><span class="nt-desc">국가공무원법, 교육기본법 등</span></div>
+      <div class="node-type-row"><svg class="nt-shape" viewBox="-8 -8 16 16"><polygon points="0,-6 5,0 0,6 -5,0" fill="#f5a623" fill-opacity="0.4" stroke="#f5a623" stroke-width="1.5"/></svg><span class="nt-name" style="color:#f5a623">대통령령</span><span class="nt-desc">임용령, 징계령, 보수규정 등</span></div>
+      <div class="node-type-row"><svg class="nt-shape" viewBox="-8 -8 16 16"><polygon points="0,-6 5.2,-3 5.2,3 0,6 -5.2,3 -5.2,-3" fill="#4ec9b0" fill-opacity="0.4" stroke="#4ec9b0" stroke-width="1.5"/></svg><span class="nt-name" style="color:#4ec9b0">부령·규칙</span><span class="nt-desc">시행규칙, 교육부령 등</span></div>
+      <div class="node-type-row"><svg class="nt-shape" viewBox="-8 -8 16 16"><polygon points="0,-6 6,4 -6,4" fill="#ffd700" fill-opacity="0.4" stroke="#ffd700" stroke-width="1.5"/></svg><span class="nt-name" style="color:#ffd700">예규·지침</span><span class="nt-desc">예규·고시·지침 (법제처 미등록)</span></div>
+      <div class="node-type-row"><svg class="nt-shape" viewBox="-8 -8 16 16"><rect x="-6" y="-4" width="12" height="8" rx="4" fill="#ff79c6" fill-opacity="0.4" stroke="#ff79c6" stroke-width="1.5" stroke-dasharray="3,2"/></svg><span class="nt-name" style="color:#ff79c6">경북지역</span><span class="nt-desc">경상북도교육청 조례·규칙</span></div>
+    </div>
+
+    <div class="help-section">
+      <h3>관계선 유형</h3>
+      <div class="link-type-row"><div class="lt-line" style="background:#e05252"></div><span class="lt-name" style="color:#e05252">준용</span><span class="lt-desc">규정 없는 사항을 다른 법령으로 대체 적용</span></div>
+      <div class="link-type-row"><div class="lt-line" style="background:#f5a623;border-top:2px dashed #f5a623;height:0"></div><span class="lt-name" style="color:#f5a623">위임</span><span class="lt-desc">법률 → 시행령으로 세부 사항 위임</span></div>
+      <div class="link-type-row"><div class="lt-line" style="background:#4ec9b0"></div><span class="lt-name" style="color:#4ec9b0">보완·연계</span><span class="lt-desc">상호 관련된 법령 간 연결</span></div>
+      <div class="link-type-row"><div class="lt-line" style="background:#ff79c6;border-top:2px dashed #ff79c6;height:0"></div><span class="lt-name" style="color:#ff79c6">지역 적용</span><span class="lt-desc">상위법 → 경상북도 지역 법령 적용</span></div>
+    </div>
+
+    <div id="modal-footer">
+      <label id="no-show-label">
+        <input type="checkbox" id="no-show-chk" style="accent-color:#7c8cf8">
+        다음부터 보지 않기
+      </label>
+      <button id="modal-ok" onclick="closeModal()">시작하기</button>
+    </div>
   </div>
 </div>
 
@@ -628,6 +767,21 @@ groupLabels.forEach(gl => {
     .attr('letter-spacing','0.05em')
     .text(gl.label);
 });
+
+// ── 도움말 모달 ───────────────────────────────────────────────
+function openModal() {
+  document.getElementById('modal-overlay').classList.remove('hidden');
+}
+function closeModal() {
+  if (document.getElementById('no-show-chk').checked) {
+    localStorage.setItem('gb_raw_help_seen', '1');
+  }
+  document.getElementById('modal-overlay').classList.add('hidden');
+}
+// 첫 접속 시 자동 표시 (localStorage에 기록 없을 때)
+if (!localStorage.getItem('gb_raw_help_seen')) {
+  openModal();
+}
 </script>
 </body>
 </html>
