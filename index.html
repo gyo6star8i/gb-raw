@@ -685,13 +685,6 @@ nodeSel.each(function(d) {
   }
 });
 
-// PDF 번호 배지
-nodeSel.append('text')
-  .attr('text-anchor','middle').attr('dominant-baseline','middle')
-  .attr('font-size', d => d.type==='core' ? '11px' : '9px')
-  .attr('font-weight','700')
-  .attr('fill', d => typeConfig[d.type].color)
-  .text(d => d.pdfNo);
 
 // 라벨
 nodeSel.append('text')
