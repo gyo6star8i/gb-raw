@@ -93,6 +93,40 @@
   .node-label { pointer-events:none; }
   .link-label { font-size:8px; fill:#555; pointer-events:none; }
 
+  /* 법제처 원문 버튼 */
+  .law-link-btn {
+    display:inline-flex; align-items:center; gap:5px;
+    margin-top:8px; padding:5px 12px; border-radius:6px;
+    background:#1a2a4a; border:1px solid #2a4a7a;
+    color:#7cb4f8; font-size:11px; font-weight:600;
+    cursor:pointer; text-decoration:none; transition:all 0.2s;
+    width:100%;
+  }
+  .law-link-btn:hover { background:#1e3460; border-color:#4a7aaa; color:#a8d0ff; }
+
+  /* 업무별 하이라이트 패널 */
+  #work-panel {
+    position:fixed; left:16px; top:52px; z-index:100;
+    background:rgba(18,20,30,0.92); border:1px solid #2a2d3a;
+    border-radius:10px; padding:10px 12px; width:160px;
+    font-size:11px;
+  }
+  #work-panel .wp-title {
+    color:#666; font-size:10px; letter-spacing:0.08em;
+    margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;
+  }
+  #work-panel .wp-title span { color:#555; cursor:pointer; font-size:12px; }
+  #work-panel .wp-title span:hover { color:#aaa; }
+  .work-tag {
+    display:block; width:100%; text-align:left;
+    padding:4px 8px; margin-bottom:4px; border-radius:5px;
+    border:1px solid #2a2d3a; background:transparent;
+    color:#888; font-size:11px; cursor:pointer;
+    transition:all 0.15s;
+  }
+  .work-tag:hover { background:#1e2030; color:#e0e0e0; border-color:#3a3d50; }
+  .work-tag.active { background:#7c8cf822; color:#c8d3f5; border-color:#7c8cf8; }
+
   /* 도움말 버튼 */
   #help-btn {
     width:28px; height:28px; border-radius:50%;
@@ -250,6 +284,25 @@
       <button id="modal-ok" onclick="closeModal()">시작하기</button>
     </div>
   </div>
+</div>
+
+<!-- 업무별 하이라이트 패널 -->
+<div id="work-panel">
+  <div class="wp-title">업무별 관련 법령 <span onclick="clearWork()" title="초기화">↺</span></div>
+  <button class="work-tag" onclick="highlightWork(this,'신규채용')">신규채용</button>
+  <button class="work-tag" onclick="highlightWork(this,'전보·파견')">전보·파견</button>
+  <button class="work-tag" onclick="highlightWork(this,'승진')">승진</button>
+  <button class="work-tag" onclick="highlightWork(this,'휴직·복직')">휴직·복직</button>
+  <button class="work-tag" onclick="highlightWork(this,'복무')">복무</button>
+  <button class="work-tag" onclick="highlightWork(this,'연수')">연수</button>
+  <button class="work-tag" onclick="highlightWork(this,'징계')">징계</button>
+  <button class="work-tag" onclick="highlightWork(this,'소청·불복')">소청·불복</button>
+  <button class="work-tag" onclick="highlightWork(this,'보수·급여')">보수·급여</button>
+  <button class="work-tag" onclick="highlightWork(this,'명예퇴직')">명예퇴직</button>
+  <button class="work-tag" onclick="highlightWork(this,'포상')">포상</button>
+  <button class="work-tag" onclick="highlightWork(this,'교권보호')">교권보호</button>
+  <button class="work-tag" onclick="highlightWork(this,'자격검정')">자격검정</button>
+  <button class="work-tag" onclick="highlightWork(this,'정보공개')">정보공개</button>
 </div>
 
 <svg id="graph"></svg>
@@ -700,6 +753,10 @@ function showPanel(e,d) {
     <div class="ip-item">PDF 순서: <span>${d.pdfNo}번</span></div>
     <div class="ip-item">분류 그룹: <span>${d.group}</span></div>
     ${hasId ? `<div class="ip-item">법령ID: <span>${d.law_id}</span></div><div class="ip-item">MST: <span>${d.mst}</span></div><div class="ip-item">최종공포: <span>${d.enacted}</span></div>` : '<div class="ip-item" style="color:#555">법제처 미등록 법령</div>'}
+    ${hasId ? `<a class="law-link-btn" href="https://www.law.go.kr/lsInfoP.do?lsiSeq=${d.mst}" target="_blank" rel="noopener">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      법제처 원문 보기
+    </a>` : ''}
   `;
   if(out.length) {
     html += `<div class="ip-section">위임/연계 → (${out.length}건)</div>`;
@@ -767,6 +824,59 @@ groupLabels.forEach(gl => {
     .attr('letter-spacing','0.05em')
     .text(gl.label);
 });
+
+// ── 업무별 하이라이트 ─────────────────────────────────────────
+const workCategories = {
+  '신규채용':  ['edu_official','appoint_decree','civil_appoint','qual_decree','appoint_list','health_check','hr_manage','cert_addendum','elem_edu','nation_official'],
+  '전보·파견': ['edu_official','appoint_decree','civil_appoint','hr_manage','conduct_decree','gb_hr_record','gb_auth_ord','gb_auth_rule','gb_local_record','local_edu_auto'],
+  '승진':      ['edu_official','promo_decree','hr_committee','senior_review','hr_manage','nation_official','appoint_decree'],
+  '휴직·복직': ['edu_official','nation_official','teacher_vacation','conduct_decree','gb_sick_leave','gb_hr_record','pay_decree','pension_law'],
+  '복무':      ['edu_official','nation_official','conduct_decree','teacher_vacation','gb_abroad','info_law'],
+  '연수':      ['edu_official','training_decree','training_rule','training_record','gb_duty_comm','edu_basic'],
+  '징계':      ['edu_official','nation_official','edu_punish','civil_punish','punish_standard','misconduct_proc','appeal_decree','teacher_status'],
+  '소청·불복': ['edu_official','teacher_status','status_decree','appeal_decree','nation_official'],
+  '보수·급여': ['edu_official','pay_decree','salary_calc','parttime_pay','retire_pay','retire_special','pension_law','nation_official'],
+  '명예퇴직':  ['edu_official','nation_official','retire_pay','retire_special','pension_law'],
+  '포상':      ['edu_official','award_law','award_decree'],
+  '교권보호':  ['teacher_status','status_decree','gb_edu_protect','student_guide','child_welfare','child_decree','child_rule','stalking_law','stalking_decree','edu_official'],
+  '자격검정':  ['edu_official','qual_decree','qual_rule','cert_addendum','appoint_list','elem_edu','elem_decree'],
+  '정보공개':  ['info_law','edu_official','nation_official'],
+};
+
+let activeWorkTag = null;
+
+function highlightWork(btn, category) {
+  // 같은 버튼 재클릭 시 해제
+  if (activeWorkTag === btn) { clearWork(); return; }
+
+  // 기존 active 해제
+  document.querySelectorAll('.work-tag').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeWorkTag = btn;
+
+  closePanel();
+  const matched = new Set(workCategories[category] || []);
+  const matchedLinks = new Set();
+  links.forEach(l => {
+    if (matched.has(l.source.id) && matched.has(l.target.id)) matchedLinks.add(l);
+  });
+
+  nodeSel.classed('highlighted', d => matched.has(d.id))
+         .classed('dimmed',      d => !matched.has(d.id));
+  linkSel.classed('highlighted', l => matchedLinks.has(l))
+         .classed('dimmed',      l => !matchedLinks.has(l));
+
+  // 카운트 표시
+  document.getElementById('node-count').textContent = `${matched.size}개 법령`;
+}
+
+function clearWork() {
+  document.querySelectorAll('.work-tag').forEach(b => b.classList.remove('active'));
+  activeWorkTag = null;
+  nodeSel.classed('highlighted', false).classed('dimmed', false);
+  linkSel.classed('highlighted', false).classed('dimmed', false);
+  document.getElementById('node-count').textContent = '';
+}
 
 // ── 도움말 모달 ───────────────────────────────────────────────
 function openModal() {
