@@ -1054,19 +1054,24 @@ function appendMsg(text, cls) {
   return div;
 }
 
-function appendLawTags(lawIds) {
-  if (!lawIds || lawIds.length === 0) return;
+function appendLawTags(lawItems) {
+  if (!lawItems || lawItems.length === 0) return;
   const box = document.getElementById('chat-messages');
   const wrap = document.createElement('div');
   wrap.className = 'chat-laws';
-  lawIds.forEach(id => {
+  // id 목록만 추출 (맵 하이라이트용)
+  const ids = lawItems.map(item => typeof item === 'string' ? item : item.id);
+  lawItems.forEach(item => {
+    const id      = typeof item === 'string' ? item : item.id;
+    const article = typeof item === 'string' ? '' : (item.article || '');
     const node = nodes.find(n => n.id === id);
     if (!node) return;
     const tag = document.createElement('span');
     tag.className = 'chat-law-tag';
-    tag.textContent = (node.fullName || node.label).replace(/\n/g,' ');
-    tag.title = '노드 하이라이트';
-    tag.onclick = () => highlightByIds(lawIds);
+    const lawName = (node.fullName || node.label).replace(/\n/g,' ');
+    tag.textContent = article ? `${lawName} ${article}` : lawName;
+    tag.title = '지도에서 관련 법령 하이라이트';
+    tag.onclick = () => highlightByIds(ids);
     wrap.appendChild(tag);
   });
   if (wrap.children.length > 0) box.appendChild(wrap);
