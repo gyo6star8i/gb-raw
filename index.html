@@ -209,6 +209,97 @@
     cursor:pointer; transition:background 0.2s;
   }
   #modal-ok:hover { background:#6070e0; }
+
+  /* ── 챗봇 버튼 & 패널 ── */
+  #chat-btn {
+    position:fixed; bottom:20px; right:180px; z-index:200;
+    width:44px; height:44px; border-radius:50%;
+    background:linear-gradient(135deg,#7c8cf8,#5a6ad0);
+    border:none; color:#fff; font-size:20px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 18px rgba(124,140,248,0.5);
+    transition:transform 0.2s, box-shadow 0.2s;
+  }
+  #chat-btn:hover { transform:scale(1.1); box-shadow:0 6px 24px rgba(124,140,248,0.7); }
+
+  #chat-panel {
+    position:fixed; bottom:74px; right:16px; z-index:200;
+    width:340px; max-height:520px;
+    background:#13151f; border:1px solid #2a2d3a;
+    border-radius:14px; display:flex; flex-direction:column;
+    box-shadow:0 20px 60px rgba(0,0,0,0.7);
+    overflow:hidden; transition:opacity 0.2s, transform 0.2s;
+  }
+  #chat-panel.hidden { display:none; }
+
+  #chat-header {
+    padding:12px 14px; background:#1e2030;
+    border-bottom:1px solid #2a2d3a;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  #chat-header .ch-title { font-size:13px; font-weight:700; color:#fff; display:flex; align-items:center; gap:6px; }
+  #chat-header .ch-title span { font-size:16px; }
+  #chat-header .ch-close { cursor:pointer; color:#555; font-size:18px; line-height:1; transition:color 0.2s; }
+  #chat-header .ch-close:hover { color:#fff; }
+
+  #chat-messages {
+    flex:1; overflow-y:auto; padding:12px 14px;
+    display:flex; flex-direction:column; gap:10px;
+    min-height:200px; max-height:340px;
+  }
+  #chat-messages::-webkit-scrollbar { width:4px; }
+  #chat-messages::-webkit-scrollbar-track { background:transparent; }
+  #chat-messages::-webkit-scrollbar-thumb { background:#2a2d3a; border-radius:2px; }
+
+  .chat-msg {
+    max-width:90%; font-size:11.5px; line-height:1.6;
+    padding:8px 12px; border-radius:10px;
+    white-space:pre-wrap; word-break:break-word;
+  }
+  .chat-msg.user {
+    align-self:flex-end;
+    background:#7c8cf822; border:1px solid #7c8cf844;
+    color:#c8d3f5;
+  }
+  .chat-msg.bot {
+    align-self:flex-start;
+    background:#1e2030; border:1px solid #2a2d3a;
+    color:#e0e0e0;
+  }
+  .chat-msg.bot.thinking {
+    color:#555; font-style:italic;
+  }
+
+  .chat-laws {
+    align-self:flex-start; max-width:90%;
+    display:flex; flex-wrap:wrap; gap:4px;
+    margin-top:-4px;
+  }
+  .chat-law-tag {
+    font-size:9.5px; padding:2px 7px; border-radius:10px;
+    background:#7c8cf822; border:1px solid #7c8cf844;
+    color:#7c8cf8; cursor:pointer; transition:all 0.15s;
+  }
+  .chat-law-tag:hover { background:#7c8cf844; }
+
+  #chat-input-row {
+    padding:10px 12px; border-top:1px solid #2a2d3a;
+    display:flex; gap:6px; align-items:center;
+  }
+  #chat-input {
+    flex:1; background:#1e2030; border:1px solid #3a3d50;
+    border-radius:8px; color:#e0e0e0; padding:7px 10px;
+    font-size:12px; outline:none; resize:none; height:36px;
+    font-family:inherit;
+  }
+  #chat-input:focus { border-color:#7c8cf8; }
+  #chat-send {
+    background:#7c8cf8; border:none; border-radius:8px;
+    color:#fff; padding:7px 12px; font-size:12px; font-weight:700;
+    cursor:pointer; transition:background 0.2s; white-space:nowrap;
+  }
+  #chat-send:hover { background:#6070e0; }
+  #chat-send:disabled { background:#3a3d50; color:#666; cursor:not-allowed; }
 </style>
 </head>
 <body>
@@ -937,6 +1028,126 @@ function closeModal() {
 if (!localStorage.getItem('gb_raw_help_seen')) {
   openModal();
 }
+
+// ── 챗봇 ─────────────────────────────────────────────────────
+const CHAT_API = 'https://gb-law-chat.onrender.com/ask-law';
+
+function toggleChat() {
+  const panel = document.getElementById('chat-panel');
+  panel.classList.toggle('hidden');
+  if (!panel.classList.contains('hidden')) {
+    document.getElementById('chat-input').focus();
+  }
+}
+
+function closeChat() {
+  document.getElementById('chat-panel').classList.add('hidden');
+}
+
+function appendMsg(text, cls) {
+  const box = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + cls;
+  div.textContent = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  return div;
+}
+
+function appendLawTags(lawIds) {
+  if (!lawIds || lawIds.length === 0) return;
+  const box = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = 'chat-laws';
+  lawIds.forEach(id => {
+    const node = nodes.find(n => n.id === id);
+    if (!node) return;
+    const tag = document.createElement('span');
+    tag.className = 'chat-law-tag';
+    tag.textContent = (node.fullName || node.label).replace(/\n/g,' ');
+    tag.title = '노드 하이라이트';
+    tag.onclick = () => highlightByIds(lawIds);
+    wrap.appendChild(tag);
+  });
+  if (wrap.children.length > 0) box.appendChild(wrap);
+  box.scrollTop = box.scrollHeight;
+}
+
+function highlightByIds(ids) {
+  const matched = new Set(ids);
+  closePanel();
+  clearWork();
+  nodeSel.classed('highlighted', d => matched.has(d.id))
+         .classed('dimmed',      d => !matched.has(d.id));
+  const matchedLinks = new Set();
+  links.forEach(l => {
+    if (matched.has(l.source.id) && matched.has(l.target.id)) matchedLinks.add(l);
+  });
+  linkSel.classed('highlighted', l => matchedLinks.has(l))
+         .classed('dimmed',      l => !matchedLinks.has(l));
+  document.getElementById('node-count').textContent = `${matched.size}개 관련 법령`;
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const btn   = document.getElementById('chat-send');
+  const q = input.value.trim();
+  if (!q) return;
+
+  input.value = '';
+  btn.disabled = true;
+  appendMsg(q, 'user');
+  const thinking = appendMsg('답변을 생성 중입니다…', 'bot thinking');
+
+  try {
+    const res = await fetch(CHAT_API, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({question: q})
+    });
+    const data = await res.json();
+    thinking.remove();
+    if (data.error) {
+      appendMsg('오류: ' + data.error, 'bot');
+    } else {
+      appendMsg(data.answer, 'bot');
+      appendLawTags(data.related_laws);
+    }
+  } catch(e) {
+    thinking.remove();
+    appendMsg('서버 연결 오류. 잠시 후 다시 시도해주세요.\n(무료 서버 첫 요청은 30~60초 소요될 수 있습니다)', 'bot');
+  }
+  btn.disabled = false;
+  input.focus();
+}
+
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+});
 </script>
+
+<!-- 챗봇 버튼 -->
+<button id="chat-btn" onclick="toggleChat()" title="법령 질문하기">💬</button>
+
+<!-- 챗봇 패널 -->
+<div id="chat-panel" class="hidden">
+  <div id="chat-header">
+    <div class="ch-title"><span>⚖️</span> 법령 질의응답</div>
+    <span class="ch-close" onclick="closeChat()">✕</span>
+  </div>
+  <div id="chat-messages">
+    <div class="chat-msg bot">안녕하세요! 경상북도교육청 교육공무원 법령 안내봇입니다.
+궁금한 법령 사항을 질문해 주세요.
+
+예) 교사 6년차 장기재직 휴가 며칠인가요?
+예) 교원 징계 감경 사유는?
+예) 명예퇴직 신청 요건이 어떻게 되나요?</div>
+  </div>
+  <div id="chat-input-row">
+    <input id="chat-input" type="text" placeholder="법령 질문을 입력하세요...">
+    <button id="chat-send" onclick="sendChat()">전송</button>
+  </div>
+</div>
+
 </body>
 </html>
