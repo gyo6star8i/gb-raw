@@ -420,7 +420,7 @@ const nodes = [
   { id:'local_contract_decree', label:'지방계약법\n시행령',            type:'decree',   group:'local_gov', law_id:'010098', mst:'281055', enacted:'2025.12', desc:'입찰·낙찰 세부 기준, 수의계약 요건, 계약 보증금 기준 등', pdfNo:'-', size:14 },
   { id:'local_contract_rule',   label:'지방계약법\n시행규칙',          type:'rule',     group:'local_gov', law_id:'010153', mst:'282729', enacted:'2025.12', desc:'서식, 세부 절차 등 지방계약법 시행령의 위임 사항', pdfNo:'-', size:12 },
   { id:'contract_guide',        label:'지방자치단체\n입찰 및 계약집행기준', type:'guideline', group:'local_gov', law_id:'-', mst:'-', enacted:'-', desc:'행정안전부 예규. 입찰 방법 결정, 낙찰자 결정 기준, 계약 특수조건 등 실무 집행기준', pdfNo:'-', size:14 },
-  { id:'gb_school_account',     label:'경상북도\n공립학교 회계규칙',   type:'regional', group:'gb_admin',   law_id:'-', mst:'-', enacted:'-', desc:'경상북도 공립학교 회계의 예산편성·집행·결산, 계약·지출 절차 등 학교 회계 운영 기준', pdfNo:'-', size:14 },
+  { id:'gb_school_account',     label:'경상북도\n공립학교 회계규칙',   type:'regional', group:'gb_admin',   law_id:'ordin', mst:'2111621', urlType:'ordin', enacted:'2026.02', desc:'경상북도 공립학교 회계의 예산편성·집행·결산, 계약·지출 절차 등 학교 회계 운영 기준', pdfNo:'-', size:14 },
 
   // ⑤ 예규·지침·고시 (법제처 미등록)
   { id:'teacher_vacation',label:'교원휴가에\n관한 예규',             type:'guideline',group:'conduct',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교원 연가·병가·공가·특별휴가의 구체적 기준 및 승인 절차', pdfNo:12, size:14 },
@@ -435,17 +435,17 @@ const nodes = [
   { id:'principal_term',  label:'교장·원장\n임기제실시 지침',         type:'guideline',group:'appoint',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교장·원장 임기제 적용 대상, 운영 기준, 재임용 심사 절차', pdfNo:46, size:12 },
 
   // ⑥ 경상북도 지역 법령 (11개)
-  { id:'gb_org_ord',      label:'경북교육청\n행정기구 설치 조례',    type:'regional', group:'gb_admin',   law_id:'-', mst:'-', enacted:'-', desc:'경상북도교육청 및 산하기관 행정조직·직제·정원에 관한 조례', pdfNo:41, size:14 },
-  { id:'gb_org_rule',     label:'경북교육청\n행정기구 조례\n시행규칙', type:'regional',group:'gb_admin',  law_id:'-', mst:'-', enacted:'-', desc:'행정기구 설치 조례 시행에 필요한 세부 사항', pdfNo:42, size:12 },
-  { id:'gb_auth_ord',     label:'경북교육감\n행정권한 위임 조례',    type:'regional', group:'gb_admin',   law_id:'-', mst:'-', enacted:'-', desc:'경상북도교육감 권한의 교육지원청·학교장 등 위임에 관한 조례', pdfNo:43, size:14 },
-  { id:'gb_auth_rule',    label:'경북교육감\n행정권한 위임 규칙',    type:'regional', group:'gb_admin',   law_id:'-', mst:'-', enacted:'-', desc:'행정권한 위임 조례 시행에 필요한 세부 규칙', pdfNo:44, size:12 },
-  { id:'gb_school_rule',  label:'경북도립학교\n관리·운영 규칙',      type:'regional', group:'gb_admin',   law_id:'-', mst:'-', enacted:'-', desc:'경상북도 도립학교의 설치·관리·운영 기준에 관한 규칙', pdfNo:45, size:12 },
-  { id:'gb_abroad',       label:'경북교육감 소속\n공무국외출장 규정', type:'regional', group:'gb_admin',  law_id:'-', mst:'-', enacted:'-', desc:'경북 교육청 소속 공무원 국외출장 절차, 출장 경비, 결과 보고 기준', pdfNo:13, size:12 },
+  { id:'gb_org_ord',      label:'경북교육청\n행정기구 설치 조례',    type:'regional', group:'gb_admin',   law_id:'ordin', mst:'2098425', urlType:'ordin', enacted:'2025.12', desc:'경상북도교육청 및 산하기관 행정조직·직제·정원에 관한 조례', pdfNo:41, size:14 },
+  { id:'gb_org_rule',     label:'경북교육청\n행정기구 조례\n시행규칙', type:'regional',group:'gb_admin',  law_id:'ordin', mst:'2098437', urlType:'ordin', enacted:'2025.12', desc:'행정기구 설치 조례 시행에 필요한 세부 사항', pdfNo:42, size:12 },
+  { id:'gb_auth_ord',     label:'경북교육감\n행정권한 위임 조례',    type:'regional', group:'gb_admin',   law_id:'ordin', mst:'2015591', urlType:'ordin', enacted:'2025.02', desc:'경상북도교육감 권한의 교육지원청·학교장 등 위임에 관한 조례', pdfNo:43, size:14 },
+  { id:'gb_auth_rule',    label:'경북교육감\n행정권한 위임 규칙',    type:'regional', group:'gb_admin',   law_id:'ordin', mst:'1976219', urlType:'ordin', enacted:'2024.10', desc:'행정권한 위임 조례 시행에 필요한 세부 규칙', pdfNo:44, size:12 },
+  { id:'gb_school_rule',  label:'경북도립학교\n관리·운영 규칙',      type:'regional', group:'gb_admin',   law_id:'ordin', mst:'2099695', urlType:'ordin', enacted:'2025.12', desc:'경상북도 도립학교의 설치·관리·운영 기준에 관한 규칙', pdfNo:45, size:12 },
+  { id:'gb_abroad',       label:'경북교육감 소속\n공무국외출장 규정', type:'regional', group:'gb_admin',  law_id:'ordin', mst:'2099751', urlType:'ordin', enacted:'2025.12', desc:'경북 교육청 소속 공무원 국외출장 절차, 출장 경비, 결과 보고 기준', pdfNo:13, size:12 },
   { id:'gb_sick_leave',   label:'교육공무원\n질병휴직위원회\n예규',   type:'regional', group:'gb_insa',   law_id:'-', mst:'-', enacted:'-', desc:'질병휴직 심사위원회 구성·운영, 휴직 심의 기준 등', pdfNo:14, size:12 },
-  { id:'gb_duty_comm',    label:'경북교원\n직무수행심의위원회\n규칙', type:'regional', group:'gb_insa',   law_id:'-', mst:'-', enacted:'-', desc:'교원 직무수행심의위원회 설치·운영, 심의 결과 처리 절차', pdfNo:15, size:12 },
-  { id:'gb_hr_record',    label:'교육공무원\n인사기록·인사사무\n처리 규칙', type:'regional', group:'gb_insa', law_id:'-', mst:'-', enacted:'-', desc:'교육공무원 개인별 인사기록 작성·보관, 발령 서식, 발령 절차 등', pdfNo:16, size:13 },
-  { id:'gb_local_record', label:'교육감 소속\n지방공무원 인사기록\n규칙', type:'regional', group:'gb_insa', law_id:'-', mst:'-', enacted:'-', desc:'교육감 소속 지방 교육행정직 공무원 인사기록·통계 처리 기준', pdfNo:17, size:12 },
-  { id:'gb_edu_protect',  label:'경북교육청\n교권보호위원회\n규칙',   type:'regional', group:'gb_edu',    law_id:'-', mst:'-', enacted:'-', desc:'경상북도교육청 교권보호위원회 설치·운영, 교육활동 침해 처리 (신설)', pdfNo:31, size:13 },
+  { id:'gb_duty_comm',    label:'경북교원\n직무수행심의위원회\n규칙', type:'regional', group:'gb_insa',   law_id:'ordin', mst:'2098793', urlType:'ordin', enacted:'2025.12', desc:'교원 직무수행심의위원회 설치·운영, 심의 결과 처리 절차', pdfNo:15, size:12 },
+  { id:'gb_hr_record',    label:'교육공무원\n인사기록·인사사무\n처리 규칙', type:'regional', group:'gb_insa', law_id:'016006', mst:'285461', enacted:'2024.03', desc:'교육공무원 개인별 인사기록 작성·보관, 발령 서식, 발령 절차 등', pdfNo:16, size:13 },
+  { id:'gb_local_record', label:'교육감 소속\n지방공무원 인사기록\n규칙', type:'regional', group:'gb_insa', law_id:'011937', mst:'230745', enacted:'2021.06', desc:'교육감 소속 지방 교육행정직 공무원 인사기록·통계 처리 기준', pdfNo:17, size:12 },
+  { id:'gb_edu_protect',  label:'경북교육청\n교권보호위원회\n규칙',   type:'regional', group:'gb_edu',    law_id:'ordin', mst:'2098805', urlType:'ordin', enacted:'2025.12', desc:'경상북도교육청 교권보호위원회 설치·운영, 교육활동 침해 처리 (신설)', pdfNo:31, size:13 },
 ];
 
 // ── 링크 정의 ─────────────────────────────────────────────────
@@ -736,11 +736,12 @@ const tt = d3.select('#tooltip');
 const typeLabel = {core:'핵심법률',law:'법률',decree:'대통령령',rule:'부령·규칙',guideline:'예규·지침·고시',regional:'경상북도 지역'};
 
 function showTip(e,d) {
-  const hasId = d.law_id && d.law_id !== '-';
+  const hasMst = d.mst && d.mst !== '-';
+  const isOrdin = d.urlType === 'ordin';
   tt.style('display','block').html(`
     <div class="tt-title">${d.label.replace(/\n/g,' ')}</div>
     <div class="tt-sub">${typeLabel[d.type]} · ${d.group} · PDF ${d.pdfNo}번</div>
-    ${hasId ? `<div style="color:#666;font-size:10px;margin-bottom:4px">법령ID: ${d.law_id} · 공포: ${d.enacted}</div>` : '<div style="color:#555;font-size:10px;margin-bottom:4px">법제처 미등록 (예규/지침/조례)</div>'}
+    ${hasMst ? `<div style="color:#666;font-size:10px;margin-bottom:4px">${isOrdin ? '자치법규' : '법령ID: '+d.law_id} · 공포: ${d.enacted}</div>` : '<div style="color:#555;font-size:10px;margin-bottom:4px">법제처 미등록 (예규/지침)</div>'}
     <div class="tt-desc">${d.desc}</div>
   `);
   moveTip(e);
@@ -766,7 +767,13 @@ function showPanel(e,d) {
   const out = links.filter(l=>l.source.id===d.id);
   const inp = links.filter(l=>l.target.id===d.id);
   const bc  = typeConfig[d.type].color;
-  const hasId = d.law_id && d.law_id!=='-';
+  const hasMst  = d.mst && d.mst !== '-';
+  const isOrdin = d.urlType === 'ordin';
+  const lawUrl  = hasMst
+    ? (isOrdin
+        ? `https://www.law.go.kr/ordinInfoP.do?ordinSeq=${d.mst}`
+        : `https://www.law.go.kr/lsInfoP.do?lsiSeq=${d.mst}`)
+    : null;
 
   let html = `
     <span class="ip-close" onclick="closePanel()">✕</span>
@@ -774,12 +781,11 @@ function showPanel(e,d) {
     <span class="ip-badge" style="background:${bc}22;color:${bc};border:1px solid ${bc}44">${typeLabel[d.type]}</span>
     <div style="color:#aaa;font-size:10px;line-height:1.6;margin-bottom:6px">${d.desc}</div>
     <div class="ip-section">기본 정보</div>
-    <div class="ip-item">PDF 순서: <span>${d.pdfNo}번</span></div>
     <div class="ip-item">분류 그룹: <span>${d.group}</span></div>
-    ${hasId ? `<div class="ip-item">법령ID: <span>${d.law_id}</span></div><div class="ip-item">MST: <span>${d.mst}</span></div><div class="ip-item">최종공포: <span>${d.enacted}</span></div>` : '<div class="ip-item" style="color:#555">법제처 미등록 법령</div>'}
-    ${hasId ? `<a class="law-link-btn" href="https://www.law.go.kr/lsInfoP.do?lsiSeq=${d.mst}" target="_blank" rel="noopener">
+    ${hasMst ? `<div class="ip-item">${isOrdin ? '자치법규 번호' : '법령ID'}: <span>${isOrdin ? d.mst : d.law_id}</span></div><div class="ip-item">최종공포: <span>${d.enacted}</span></div>` : '<div class="ip-item" style="color:#555">법제처 미등록 법령</div>'}
+    ${lawUrl ? `<a class="law-link-btn" href="${lawUrl}" target="_blank" rel="noopener">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      법제처 원문 보기
+      ${isOrdin ? '자치법규 원문 보기' : '법제처 원문 보기'}
     </a>` : ''}
   `;
   if(out.length) {
