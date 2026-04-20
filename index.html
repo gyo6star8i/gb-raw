@@ -423,6 +423,7 @@ const nodes = [
   { id:'gb_school_account',     label:'경상북도\n공립학교 회계규칙',   type:'regional', group:'gb_admin',   law_id:'ordin', mst:'2111621', urlType:'ordin', enacted:'2026.02', desc:'경상북도 공립학교 회계의 예산편성·집행·결산, 계약·지출 절차 등 학교 회계 운영 기준', pdfNo:'-', size:14 },
 
   // ⑤ 예규·지침·고시 (법제처 미등록)
+  { id:'civil_conduct_guide', label:'국가공무원\n복무·징계\n관련 예규', type:'guideline', group:'conduct',   law_id:'-', mst:'-', enacted:'2026.01', lawSlug:'행정규칙/국가공무원복무징계관련예규', desc:'국가공무원 복무 의무·휴가·출장, 징계 기준·절차, 비위 유형별 처리 등 복무·징계 실무 종합 예규 (인사혁신처, 360p)', pdfNo:'-', size:15 },
   { id:'teacher_vacation',label:'교원휴가에\n관한 예규',             type:'guideline',group:'conduct',    law_id:'-',      mst:'-',      enacted:'-',     lawSlug:'행정규칙/교원휴가에관한예규',               desc:'교원 연가·병가·공가·특별휴가의 구체적 기준 및 승인 절차', pdfNo:12, size:14 },
   { id:'training_record', label:'교원연수\n이수실적 기록·관리요령',  type:'guideline',group:'conduct',    law_id:'-',      mst:'-',      enacted:'-',     lawSlug:'행정규칙/교원연수이수실적의기록및관리요령',  desc:'교원 연수 이수실적 등재, 전산 입력, 관리 방법 등', pdfNo:20, size:12 },
   { id:'cert_addendum',   label:'교(원)장자격증\n부관 설정 규정',    type:'guideline',group:'appoint',    law_id:'-',      mst:'-',      enacted:'-',     lawSlug:'행정규칙/교원(장)자격증부관설정등에관한규정', desc:'교(원)장 자격증 취득 시 부관 설정 기준 및 자격인정 취소 절차', pdfNo:24, size:12 },
@@ -539,6 +540,8 @@ const links = [
 
   // 복무
   { source:'conduct_decree',  target:'gb_abroad',       type:'regional', label:'연계' },
+  { source:'conduct_decree',  target:'civil_conduct_guide', type:'delegate', label:'위임' },
+  { source:'civil_punish',    target:'civil_conduct_guide', type:'delegate', label:'위임' },
 
   // 학생보호
   { source:'child_welfare',   target:'child_decree',    type:'delegate', label:'위임' },
@@ -870,9 +873,9 @@ const workCategories = {
   '전보·파견': ['edu_official','appoint_decree','civil_appoint','hr_manage','conduct_decree','gb_hr_record','gb_auth_ord','gb_auth_rule','gb_local_record','local_edu_auto'],
   '승진':      ['edu_official','promo_decree','hr_committee','senior_review','hr_manage','nation_official','appoint_decree'],
   '휴직·복직': ['edu_official','nation_official','teacher_vacation','conduct_decree','gb_sick_leave','gb_hr_record','pay_decree','pension_law'],
-  '복무':      ['edu_official','nation_official','conduct_decree','teacher_vacation','gb_abroad','info_law'],
+  '복무':      ['edu_official','nation_official','conduct_decree','civil_conduct_guide','teacher_vacation','gb_abroad','info_law'],
   '연수':      ['edu_official','training_decree','training_rule','training_record','gb_duty_comm','edu_basic'],
-  '징계':      ['edu_official','nation_official','edu_punish','civil_punish','punish_standard','misconduct_proc','appeal_decree','teacher_status'],
+  '징계':      ['edu_official','nation_official','edu_punish','civil_punish','civil_conduct_guide','punish_standard','misconduct_proc','appeal_decree','teacher_status'],
   '소청·불복': ['edu_official','teacher_status','status_decree','appeal_decree','nation_official'],
   '보수·급여': ['edu_official','pay_decree','salary_calc','parttime_pay','retire_pay','retire_special','pension_law','nation_official'],
   '명예퇴직':  ['edu_official','nation_official','retire_pay','retire_special','pension_law'],
