@@ -372,13 +372,13 @@ const nodes = [
   { id:'edu_basic',       label:'교육기본법',                      type:'law',      group:'edu_system', law_id:'000901', mst:'268515', enacted:'2025.01', desc:'교육에 관한 국민의 권리·의무, 국가 교육제도의 기본 원칙', pdfNo:1,  size:24 },
   { id:'elem_edu',        label:'초·중등교육법',                   type:'law',      group:'edu_system', law_id:'000900', mst:'279605', enacted:'2025.11', desc:'유·초·중·고 학교 설립·운영, 교원 배치 및 교육과정 등', pdfNo:2,  size:22 },
   { id:'nation_official', label:'국가공무원법',                    type:'law',      group:'core',       law_id:'001719', mst:'267601', enacted:'2024.12', desc:'국가공무원 인사에 관한 기본법. 교육공무원에 규정 없는 사항 준용', pdfNo:5,  size:24 },
-  { id:'local_edu_auto',  label:'지방교육자치에\n관한 법률',        type:'law',      group:'local_gov',  law_id:'000898', mst:'284617', enacted:'2026.03', desc:'교육감 선출, 교육청 조직, 지방교육행정 자치에 관한 기본법', pdfNo:33, size:22 },
+  { id:'local_edu_auto',  label:'지방교육자치법',        type:'law',      group:'local_gov',  law_id:'000898', mst:'284617', enacted:'2026.03', desc:'교육감 선출, 교육청 조직, 지방교육행정 자치에 관한 기본법', pdfNo:33, size:22 },
   { id:'pension_law',     label:'공무원연금법',                    type:'law',      group:'pay',        law_id:'001717', mst:'277137', enacted:'2025.10', desc:'교육공무원을 포함한 공무원의 퇴직·장해·사망 급여 지급 근거', pdfNo:38, size:22 },
   { id:'infant_edu',      label:'유아교육법',                      type:'law',      group:'edu_system', law_id:'009621', mst:'279629', enacted:'2025.11', desc:'유치원 설립·운영, 유치원 교원 자격·배치에 관한 사항', pdfNo:53, size:18 },
-  { id:'teacher_status',  label:'교원지위향상 및\n교육활동보호\n특별법', type:'law', group:'appeal',     law_id:'000886', mst:'283357', enacted:'2026.02', desc:'교원 사회적 지위 향상, 교육활동 보호, 교원소청심사위원회 근거', pdfNo:29, size:22 },
+  { id:'teacher_status',  label:'교원지위법', type:'law', group:'appeal',     law_id:'000886', mst:'283357', enacted:'2026.02', desc:'교원 사회적 지위 향상, 교육활동 보호, 교원소청심사위원회 근거', pdfNo:29, size:22 },
   { id:'award_law',       label:'상훈법',                          type:'law',      group:'award',      law_id:'001427', mst:'212139', enacted:'2019.12', desc:'훈장·포장·표창 등 국가 포상의 종류와 절차에 관한 사항', pdfNo:36, size:18 },
-  { id:'info_law',        label:'공공기관의\n정보공개에 관한 법률', type:'law',      group:'info',       law_id:'001357', mst:'251019', enacted:'2023.05', desc:'공공기관 정보공개 청구, 비공개 결정, 불복 절차 등', pdfNo:52, size:16 },
-  { id:'stalking_law',    label:'스토킹범죄의\n처벌 등에 관한 법률', type:'law',    group:'student',    law_id:'014070', mst:'252483', enacted:'2023.07', desc:'스토킹범죄 피해 아동·학생 보호, 교원 대처 의무 관련', pdfNo:55, size:16 },
+  { id:'info_law',        label:'정보공개법', type:'law',      group:'info',       law_id:'001357', mst:'251019', enacted:'2023.05', desc:'공공기관 정보공개 청구, 비공개 결정, 불복 절차 등', pdfNo:52, size:16 },
+  { id:'stalking_law',    label:'스토킹처벌법', type:'law',    group:'student',    law_id:'014070', mst:'252483', enacted:'2023.07', desc:'스토킹범죄 피해 아동·학생 보호, 교원 대처 의무 관련', pdfNo:55, size:16 },
   { id:'child_welfare',   label:'아동복지법',                      type:'law',      group:'student',    law_id:'000190', mst:'270409', enacted:'2025.04', desc:'아동 보호·지원, 교원의 아동학대 신고의무 규정', pdfNo:57, size:18 },
 
   // ③ 대통령령
@@ -388,7 +388,7 @@ const nodes = [
   { id:'promo_decree',    label:'교육공무원\n승진규정',              type:'decree',   group:'appoint',    law_id:'002580', mst:'251543', enacted:'2023.06', desc:'교육공무원 승진 심사 기준, 경력·연수·공적 평점 등', pdfNo:8,  size:16 },
   { id:'hr_committee',    label:'교육공무원\n인사위원회 규정',       type:'decree',   group:'appoint',    law_id:'002582', mst:'140704', enacted:'2013.05', desc:'교육공무원 인사위원회 구성·운영, 심의사항 등', pdfNo:9,  size:14 },
   { id:'conduct_decree',  label:'국가공무원\n복무규정',              type:'decree',   group:'conduct',    law_id:'002643', mst:'280209', enacted:'2025.12', desc:'국가공무원 복무 의무, 근무시간, 각종 휴가 기준', pdfNo:11, size:16 },
-  { id:'training_decree', label:'교원 등의 연수에\n관한 규정',      type:'decree',   group:'conduct',    law_id:'002565', mst:'227009', enacted:'2021.01', desc:'교원 연수 종류, 연수기관, 특별연수자 선발·지도 등', pdfNo:18, size:16 },
+  { id:'training_decree', label:'교원연수규정',      type:'decree',   group:'conduct',    law_id:'002565', mst:'227009', enacted:'2021.01', desc:'교원 연수 종류, 연수기관, 특별연수자 선발·지도 등', pdfNo:18, size:16 },
   { id:'qual_decree',     label:'교원자격검정령',                   type:'decree',   group:'appoint',    law_id:'002569', mst:'265627', enacted:'2024.10', desc:'교원 자격 취득을 위한 검정 방법, 무시험검정·시험검정 기준', pdfNo:22, size:16 },
   { id:'edu_punish',      label:'교육공무원\n징계령',                type:'decree',   group:'punish',     law_id:'002586', mst:'280455', enacted:'2025.12', desc:'교육공무원 징계 절차, 징계위원회 구성·운영, 감경 기준', pdfNo:25, size:18 },
   { id:'civil_punish',    label:'공무원징계령',                     type:'decree',   group:'punish',     law_id:'002324', mst:'272555', enacted:'2025.06', desc:'국가공무원 징계 절차 일반 규정. 교육공무원 징계령에서 준용', pdfNo:26, size:14 },
@@ -396,7 +396,7 @@ const nodes = [
   { id:'health_check',    label:'공무원 채용\n신체검사 규정',         type:'decree',   group:'hire_proc',  law_id:'002327', mst:'266777', enacted:'2024.12', desc:'공무원 채용 시 신체검사 절차, 검사 기관 지정 등', pdfNo:40, size:14 },
   { id:'award_decree',    label:'상훈법 시행령',                    type:'decree',   group:'award',      law_id:'003826', mst:'215477', enacted:'2020.03', desc:'훈장·포장의 종류별 수여 기준, 공적심사위원회 구성 등', pdfNo:37, size:13 },
   { id:'pay_decree',      label:'공무원보수규정',                   type:'decree',   group:'pay',        law_id:'002298', mst:'283493', enacted:'2026.02', desc:'국가공무원 봉급·수당 등 보수 체계 세부 기준 (교육공무원 포함)', pdfNo:47, size:18 },
-  { id:'retire_pay',      label:'국가공무원\n명예퇴직수당 등 지급 규정', type:'decree', group:'pay',     law_id:'002641', mst:'281717', enacted:'2025.12', desc:'명예퇴직 수당 지급 대상·금액, 특별승진 기준 등', pdfNo:50, size:14 },
+  { id:'retire_pay',      label:'명예퇴직수당\n지급규정', type:'decree', group:'pay',     law_id:'002641', mst:'281717', enacted:'2025.12', desc:'명예퇴직 수당 지급 대상·금액, 특별승진 기준 등', pdfNo:50, size:14 },
   { id:'local_edu_decree',label:'지방교육자치법\n시행령',            type:'decree',   group:'local_gov',  law_id:'005059', mst:'251971', enacted:'2023.06', desc:'교육감 권한, 교육위원회 구성, 교육청 운영 세부 사항', pdfNo:34, size:14 },
   { id:'infant_decree',   label:'유아교육법\n시행령',                type:'decree',   group:'edu_system', law_id:'009874', mst:'285451', enacted:'2026.04', desc:'유치원 설립 기준, 원장·교사 배치 기준, 방과후 과정 등', pdfNo:54, size:13 },
   { id:'status_decree',   label:'교원지위법\n시행령',                type:'decree',   group:'appeal',     law_id:'002566', mst:'273699', enacted:'2025.09', desc:'교원소청심사위원회 구성, 교육활동 침해 처리 절차 등', pdfNo:30, size:13 },
@@ -412,11 +412,11 @@ const nodes = [
   { id:'child_rule',      label:'아동복지법\n시행규칙',              type:'rule',     group:'student',    law_id:'007661', mst:'285425', enacted:'2026.04', desc:'아동학대 신고 서식, 아동보호전문기관 운영 기준 등', pdfNo:59, size:11 },
 
   // 학교폭력 (추가)
-  { id:'school_violence', label:'학교폭력예방 및\n대책에 관한 법률', type:'law',      group:'student',    law_id:'009620', mst:'279621', enacted:'2025.11', desc:'학교폭력 예방·대책, 심의위원회 운영, 교원의 사안 처리 의무 및 보호 규정', pdfNo:'-', size:20 },
+  { id:'school_violence', label:'학교폭력예방법', type:'law',      group:'student',    law_id:'009620', mst:'279621', enacted:'2025.11', desc:'학교폭력 예방·대책, 심의위원회 운영, 교원의 사안 처리 의무 및 보호 규정', pdfNo:'-', size:20 },
   { id:'school_violence_decree', label:'학교폭력예방법\n시행령',      type:'decree',   group:'student',    law_id:'009741', mst:'280967', enacted:'2025.12', desc:'학교폭력대책심의위원회 구성·운영, 피해학생 보호조치, 가해학생 조치 기준', pdfNo:'-', size:14 },
 
   // 지방계약법 + 회계 (추가)
-  { id:'local_contract',        label:'지방자치단체를\n당사자로 하는\n계약에 관한 법률', type:'law',   group:'local_gov', law_id:'010002', mst:'253973', enacted:'2023.08', desc:'지방자치단체(교육청 포함)의 물품·공사·용역 계약 체결 절차, 입찰·낙찰 기준 등', pdfNo:'-', size:20 },
+  { id:'local_contract',        label:'지방계약법', type:'law',   group:'local_gov', law_id:'010002', mst:'253973', enacted:'2023.08', desc:'지방자치단체(교육청 포함)의 물품·공사·용역 계약 체결 절차, 입찰·낙찰 기준 등', pdfNo:'-', size:20 },
   { id:'local_contract_decree', label:'지방계약법\n시행령',            type:'decree',   group:'local_gov', law_id:'010098', mst:'281055', enacted:'2025.12', desc:'입찰·낙찰 세부 기준, 수의계약 요건, 계약 보증금 기준 등', pdfNo:'-', size:14 },
   { id:'local_contract_rule',   label:'지방계약법\n시행규칙',          type:'rule',     group:'local_gov', law_id:'010153', mst:'282729', enacted:'2025.12', desc:'서식, 세부 절차 등 지방계약법 시행령의 위임 사항', pdfNo:'-', size:12 },
   { id:'contract_guide',        label:'지방자치단체\n입찰 및 계약집행기준', type:'guideline', group:'local_gov', law_id:'-', mst:'-', enacted:'-', lawSlug:'행정규칙/지방자치단체입찰및계약집행기준', desc:'행정안전부 예규. 입찰 방법 결정, 낙찰자 결정 기준, 계약 특수조건 등 실무 집행기준', pdfNo:'-', size:14 },
