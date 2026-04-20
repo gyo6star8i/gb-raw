@@ -214,7 +214,7 @@
 <body>
 
 <div id="header">
-  <h1>교육공무원 <span>인사 법령 관계도</span><small>2026 경상북도교육청 · 총 61개 법령</small></h1>
+  <h1>교육공무원 <span>인사 법령 관계도</span><small>2026 경상북도교육청 · 총 66개 법령</small></h1>
   <div class="filter-group">
     <span class="filter-label">유형:</span>
     <div class="filter-btn" data-type="core"     style="border-color:#e05252;color:#e05252"     onclick="toggleFilter(this)"><div class="dot" style="background:#e05252"></div>핵심</div>
@@ -236,7 +236,7 @@
   <div id="modal">
     <span class="modal-close" onclick="closeModal()">✕</span>
     <h2>교육공무원 인사 법령 관계도</h2>
-    <div class="modal-sub">2026 경상북도교육청 · 총 61개 법령 · 교육공무원법 중심 네트워크</div>
+    <div class="modal-sub">2026 경상북도교육청 · 총 66개 법령 · 교육공무원법 중심 네트워크</div>
 
     <div class="help-section">
       <h3>기본 조작</h3>
@@ -304,6 +304,8 @@
   <button class="work-tag" onclick="highlightWork(this,'자격검정')">자격검정</button>
   <button class="work-tag" onclick="highlightWork(this,'정보공개')">정보공개</button>
   <button class="work-tag" onclick="highlightWork(this,'학교폭력')">학교폭력</button>
+  <button class="work-tag" onclick="highlightWork(this,'계약·구매')">계약·구매</button>
+  <button class="work-tag" onclick="highlightWork(this,'회계')">회계</button>
 </div>
 
 <svg id="graph"></svg>
@@ -328,12 +330,12 @@
 
 <div id="stats">
   <div class="s-title">법령 현황</div>
-  <div class="s-row"><span class="s-label">전체</span><span class="s-val" style="color:#fff">61</span></div>
-  <div class="s-row"><span class="s-label">법률</span><span class="s-val" style="color:#7c8cf8">13</span></div>
-  <div class="s-row"><span class="s-label">대통령령</span><span class="s-val" style="color:#f5a623">21</span></div>
-  <div class="s-row"><span class="s-label">부령·규칙</span><span class="s-val" style="color:#4ec9b0">6</span></div>
-  <div class="s-row"><span class="s-label">예규·지침</span><span class="s-val" style="color:#ffd700">10</span></div>
-  <div class="s-row"><span class="s-label">경북지역</span><span class="s-val" style="color:#ff79c6">11</span></div>
+  <div class="s-row"><span class="s-label">전체</span><span class="s-val" style="color:#fff">66</span></div>
+  <div class="s-row"><span class="s-label">법률</span><span class="s-val" style="color:#7c8cf8">14</span></div>
+  <div class="s-row"><span class="s-label">대통령령</span><span class="s-val" style="color:#f5a623">22</span></div>
+  <div class="s-row"><span class="s-label">부령·규칙</span><span class="s-val" style="color:#4ec9b0">7</span></div>
+  <div class="s-row"><span class="s-label">예규·지침</span><span class="s-val" style="color:#ffd700">11</span></div>
+  <div class="s-row"><span class="s-label">경북지역</span><span class="s-val" style="color:#ff79c6">12</span></div>
 </div>
 
 <script>
@@ -412,6 +414,13 @@ const nodes = [
   // 학교폭력 (추가)
   { id:'school_violence', label:'학교폭력예방 및\n대책에 관한 법률', type:'law',      group:'student',    law_id:'009620', mst:'279621', enacted:'2025.11', desc:'학교폭력 예방·대책, 심의위원회 운영, 교원의 사안 처리 의무 및 보호 규정', pdfNo:'-', size:20 },
   { id:'school_violence_decree', label:'학교폭력예방법\n시행령',      type:'decree',   group:'student',    law_id:'009741', mst:'280967', enacted:'2025.12', desc:'학교폭력대책심의위원회 구성·운영, 피해학생 보호조치, 가해학생 조치 기준', pdfNo:'-', size:14 },
+
+  // 지방계약법 + 회계 (추가)
+  { id:'local_contract',        label:'지방자치단체를\n당사자로 하는\n계약에 관한 법률', type:'law',   group:'local_gov', law_id:'010002', mst:'253973', enacted:'2023.08', desc:'지방자치단체(교육청 포함)의 물품·공사·용역 계약 체결 절차, 입찰·낙찰 기준 등', pdfNo:'-', size:20 },
+  { id:'local_contract_decree', label:'지방계약법\n시행령',            type:'decree',   group:'local_gov', law_id:'010098', mst:'281055', enacted:'2025.12', desc:'입찰·낙찰 세부 기준, 수의계약 요건, 계약 보증금 기준 등', pdfNo:'-', size:14 },
+  { id:'local_contract_rule',   label:'지방계약법\n시행규칙',          type:'rule',     group:'local_gov', law_id:'010153', mst:'282729', enacted:'2025.12', desc:'서식, 세부 절차 등 지방계약법 시행령의 위임 사항', pdfNo:'-', size:12 },
+  { id:'contract_guide',        label:'지방자치단체\n입찰 및 계약집행기준', type:'guideline', group:'local_gov', law_id:'-', mst:'-', enacted:'-', desc:'행정안전부 예규. 입찰 방법 결정, 낙찰자 결정 기준, 계약 특수조건 등 실무 집행기준', pdfNo:'-', size:14 },
+  { id:'gb_school_account',     label:'경상북도\n공립학교 회계규칙',   type:'regional', group:'gb_admin',   law_id:'-', mst:'-', enacted:'-', desc:'경상북도 공립학교 회계의 예산편성·집행·결산, 계약·지출 절차 등 학교 회계 운영 기준', pdfNo:'-', size:14 },
 
   // ⑤ 예규·지침·고시 (법제처 미등록)
   { id:'teacher_vacation',label:'교원휴가에\n관한 예규',             type:'guideline',group:'conduct',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교원 연가·병가·공가·특별휴가의 구체적 기준 및 승인 절차', pdfNo:12, size:14 },
@@ -550,6 +559,15 @@ const links = [
   { source:'gb_org_ord',      target:'gb_org_rule',     type:'regional', label:'위임' },
   { source:'gb_auth_ord',     target:'gb_auth_rule',    type:'regional', label:'위임' },
   { source:'gb_hr_record',    target:'gb_local_record', type:'regional', label:'연계' },
+
+  // 지방계약법 + 회계
+  { source:'local_contract',        target:'local_contract_decree', type:'delegate', label:'위임' },
+  { source:'local_contract_decree', target:'local_contract_rule',   type:'delegate', label:'위임' },
+  { source:'local_contract_decree', target:'contract_guide',        type:'delegate', label:'위임' },
+  { source:'local_edu_auto',        target:'local_contract',        type:'link',     label:'연계' },
+  { source:'gb_auth_ord',           target:'local_contract',        type:'regional', label:'적용' },
+  { source:'local_contract',        target:'gb_school_account',     type:'regional', label:'적용' },
+  { source:'gb_school_account',     target:'gb_org_ord',            type:'regional', label:'연계' },
 ];
 
 // ── 색상·모양 설정 ─────────────────────────────────────────────
@@ -848,6 +866,8 @@ const workCategories = {
   '자격검정':  ['edu_official','qual_decree','qual_rule','cert_addendum','appoint_list','elem_edu','elem_decree'],
   '정보공개':  ['info_law','edu_official','nation_official'],
   '학교폭력':  ['school_violence','school_violence_decree','teacher_status','status_decree','student_guide','child_welfare','child_decree','child_rule','elem_edu','edu_official','gb_edu_protect'],
+  '계약·구매': ['local_contract','local_contract_decree','local_contract_rule','contract_guide','local_edu_auto','gb_auth_ord','gb_auth_rule'],
+  '회계':      ['local_contract','local_contract_decree','local_contract_rule','contract_guide','gb_school_account','gb_org_ord','local_edu_auto','gb_auth_ord'],
 };
 
 let activeWorkTag = null;
