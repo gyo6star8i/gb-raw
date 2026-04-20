@@ -736,12 +736,14 @@ const tt = d3.select('#tooltip');
 const typeLabel = {core:'핵심법률',law:'법률',decree:'대통령령',rule:'부령·규칙',guideline:'예규·지침·고시',regional:'경상북도 지역'};
 
 function showTip(e,d) {
-  const hasMst = d.mst && d.mst !== '-';
-  const isOrdin = d.urlType === 'ordin';
+  const isOrdin  = d.urlType === 'ordin';
+  const hasLawId = d.law_id && d.law_id !== '-' && d.law_id !== 'ordin';
+  const hasMst   = d.mst && d.mst !== '-';
+  const hasLink  = isOrdin ? hasMst : (hasLawId || hasMst);
   tt.style('display','block').html(`
     <div class="tt-title">${d.label.replace(/\n/g,' ')}</div>
     <div class="tt-sub">${typeLabel[d.type]} · ${d.group} · PDF ${d.pdfNo}번</div>
-    ${hasMst ? `<div style="color:#666;font-size:10px;margin-bottom:4px">${isOrdin ? '자치법규' : '법령ID: '+d.law_id} · 공포: ${d.enacted}</div>` : '<div style="color:#555;font-size:10px;margin-bottom:4px">법제처 미등록 (예규/지침)</div>'}
+    ${hasLink ? `<div style="color:#666;font-size:10px;margin-bottom:4px">${isOrdin ? '자치법규' : '법령ID: '+d.law_id} · 공포: ${d.enacted}</div>` : '<div style="color:#555;font-size:10px;margin-bottom:4px">법제처 미등록 (예규/지침)</div>'}
     <div class="tt-desc">${d.desc}</div>
   `);
   moveTip(e);
@@ -767,12 +769,16 @@ function showPanel(e,d) {
   const out = links.filter(l=>l.source.id===d.id);
   const inp = links.filter(l=>l.target.id===d.id);
   const bc  = typeConfig[d.type].color;
-  const hasMst  = d.mst && d.mst !== '-';
-  const isOrdin = d.urlType === 'ordin';
-  const lawUrl  = hasMst
+  const isOrdin  = d.urlType === 'ordin';
+  const hasLawId = d.law_id && d.law_id !== '-' && d.law_id !== 'ordin';
+  const hasMst   = d.mst && d.mst !== '-';
+  const hasLink  = isOrdin ? hasMst : (hasLawId || hasMst);
+  const lawUrl   = hasLink
     ? (isOrdin
         ? `https://www.law.go.kr/ordinInfoP.do?ordinSeq=${d.mst}`
-        : `https://www.law.go.kr/lsInfoP.do?lsiSeq=${d.mst}`)
+        : hasLawId
+          ? `https://www.law.go.kr/lsInfoP.do?lsId=${d.law_id}`
+          : `https://www.law.go.kr/lsInfoP.do?lsiSeq=${d.mst}`)
     : null;
 
   let html = `
@@ -782,7 +788,7 @@ function showPanel(e,d) {
     <div style="color:#aaa;font-size:10px;line-height:1.6;margin-bottom:6px">${d.desc}</div>
     <div class="ip-section">기본 정보</div>
     <div class="ip-item">분류 그룹: <span>${d.group}</span></div>
-    ${hasMst ? `<div class="ip-item">${isOrdin ? '자치법규 번호' : '법령ID'}: <span>${isOrdin ? d.mst : d.law_id}</span></div><div class="ip-item">최종공포: <span>${d.enacted}</span></div>` : '<div class="ip-item" style="color:#555">법제처 미등록 법령</div>'}
+    ${hasLink ? `<div class="ip-item">${isOrdin ? '자치법규 번호' : '법령ID'}: <span>${isOrdin ? d.mst : d.law_id}</span></div><div class="ip-item">최종공포: <span>${d.enacted}</span></div>` : '<div class="ip-item" style="color:#555">법제처 미등록 법령</div>'}
     ${lawUrl ? `<a class="law-link-btn" href="${lawUrl}" target="_blank" rel="noopener">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       ${isOrdin ? '자치법규 원문 보기' : '법제처 원문 보기'}
