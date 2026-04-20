@@ -426,12 +426,12 @@ const nodes = [
   { id:'teacher_vacation',label:'교원휴가에\n관한 예규',             type:'guideline',group:'conduct',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교원 연가·병가·공가·특별휴가의 구체적 기준 및 승인 절차', pdfNo:12, size:14 },
   { id:'training_record', label:'교원연수\n이수실적 기록·관리요령',  type:'guideline',group:'conduct',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교원 연수 이수실적 등재, 전산 입력, 관리 방법 등', pdfNo:20, size:12 },
   { id:'cert_addendum',   label:'교(원)장자격증\n부관 설정 규정',    type:'guideline',group:'appoint',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교(원)장 자격증 취득 시 부관 설정 기준 및 자격인정 취소 절차', pdfNo:24, size:12 },
-  { id:'misconduct_proc', label:'공무원 비위사건\n처리 규정',         type:'guideline',group:'punish',     law_id:'-',      mst:'-',      enacted:'-',     desc:'공무원 비위사건 발생 시 보고·처리 절차, 면직 기준 (PDF 빨간색 표시)', pdfNo:28, size:13 },
-  { id:'student_guide',   label:'교원의 학생\n생활지도에 관한 고시', type:'guideline',group:'student',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교원의 학생 생활지도 범위·방식, 학생 권리보호 기준', pdfNo:32, size:12 },
+  { id:'misconduct_proc', label:'공무원 비위사건\n처리 규정',         type:'guideline',group:'punish',     law_id:'-',      mst:'-',      enacted:'-',     lawSlug:'행정규칙/공무원비위사건처리규정',           desc:'공무원 비위사건 발생 시 보고·처리 절차, 면직 기준 (PDF 빨간색 표시)', pdfNo:28, size:13 },
+  { id:'student_guide',   label:'교원의 학생\n생활지도에 관한 고시', type:'guideline',group:'student',    law_id:'-',      mst:'-',      enacted:'-',     lawSlug:'행정규칙/교원의학생생활지도에관한고시',     desc:'교원의 학생 생활지도 범위·방식, 학생 권리보호 기준', pdfNo:32, size:12 },
   { id:'salary_calc',     label:'교원 호봉확정\n경력환산율표 예규',  type:'guideline',group:'pay',        law_id:'-',      mst:'-',      enacted:'-',     desc:'교육공무원 호봉확정 시 경력별 환산율 적용 기준 및 절차', pdfNo:48, size:12 },
   { id:'parttime_pay',    label:'기간제교원\n봉급 지급 예규',         type:'guideline',group:'pay',        law_id:'-',      mst:'-',      enacted:'-',     desc:'기간제(임시) 교원의 봉급 등급, 지급 시기·방법 기준', pdfNo:49, size:12 },
   { id:'retire_special',  label:'교원 명예퇴직\n수당 특례규정',       type:'guideline',group:'pay',        law_id:'-',      mst:'-',      enacted:'-',     desc:'교육공무원 명예퇴직 수당 산정 특례 기준 및 사후관리', pdfNo:51, size:12 },
-  { id:'hr_manage',       label:'교육공무원\n인사관리규정',           type:'guideline',group:'appoint',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교육공무원 인사기록 작성·유지, 인사사무 처리 일반 기준', pdfNo:10, size:13 },
+  { id:'hr_manage',       label:'교육공무원\n인사관리규정',           type:'guideline',group:'appoint',    law_id:'-',      mst:'-',      enacted:'-',     lawSlug:'법령/교육공무원인사관리규정',               desc:'교육공무원 인사기록 작성·유지, 인사사무 처리 일반 기준', pdfNo:10, size:13 },
   { id:'principal_term',  label:'교장·원장\n임기제실시 지침',         type:'guideline',group:'appoint',    law_id:'-',      mst:'-',      enacted:'-',     desc:'교장·원장 임기제 적용 대상, 운영 기준, 재임용 심사 절차', pdfNo:46, size:12 },
 
   // ⑥ 경상북도 지역 법령 (11개)
@@ -739,7 +739,7 @@ function showTip(e,d) {
   const isOrdin  = d.urlType === 'ordin';
   const hasLawId = d.law_id && d.law_id !== '-' && d.law_id !== 'ordin';
   const hasMst   = d.mst && d.mst !== '-';
-  const hasLink  = isOrdin ? hasMst : (hasLawId || hasMst);
+  const hasLink  = !!d.lawSlug || (isOrdin ? hasMst : (hasLawId || hasMst));
   tt.style('display','block').html(`
     <div class="tt-title">${d.label.replace(/\n/g,' ')}</div>
     <div class="tt-sub">${typeLabel[d.type]} · ${d.group} · PDF ${d.pdfNo}번</div>
@@ -772,13 +772,16 @@ function showPanel(e,d) {
   const isOrdin  = d.urlType === 'ordin';
   const hasLawId = d.law_id && d.law_id !== '-' && d.law_id !== 'ordin';
   const hasMst   = d.mst && d.mst !== '-';
-  const hasLink  = isOrdin ? hasMst : (hasLawId || hasMst);
+  const hasSlug  = !!d.lawSlug;
+  const hasLink  = hasSlug || (isOrdin ? hasMst : (hasLawId || hasMst));
   const lawUrl   = hasLink
-    ? (isOrdin
-        ? `https://www.law.go.kr/ordinInfoP.do?ordinSeq=${d.mst}`
-        : hasLawId
-          ? `https://www.law.go.kr/lsInfoP.do?lsId=${d.law_id}`
-          : `https://www.law.go.kr/lsInfoP.do?lsiSeq=${d.mst}`)
+    ? (hasSlug
+        ? `https://www.law.go.kr/${d.lawSlug}`
+        : isOrdin
+          ? `https://www.law.go.kr/ordinInfoP.do?ordinSeq=${d.mst}`
+          : hasLawId
+            ? `https://www.law.go.kr/lsInfoP.do?lsId=${d.law_id}`
+            : `https://www.law.go.kr/lsInfoP.do?lsiSeq=${d.mst}`)
     : null;
 
   let html = `
