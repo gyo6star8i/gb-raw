@@ -284,13 +284,14 @@
 
   #chat-input-row {
     padding:10px 12px; border-top:1px solid #2a2d3a;
-    display:flex; gap:6px; align-items:center;
+    display:flex; gap:6px; align-items:flex-end;
   }
   #chat-input {
     flex:1; background:#1e2030; border:1px solid #3a3d50;
     border-radius:8px; color:#e0e0e0; padding:7px 10px;
-    font-size:12px; outline:none; resize:none; height:36px;
-    font-family:inherit;
+    font-size:12px; outline:none; resize:none;
+    min-height:36px; max-height:120px; line-height:1.4;
+    font-family:inherit; overflow-y:auto;
   }
   #chat-input:focus { border-color:#7c8cf8; }
   #chat-send {
@@ -1100,6 +1101,7 @@ async function sendChat() {
   if (!q) return;
 
   input.value = '';
+  input.style.height = 'auto';
   btn.disabled = true;
   appendMsg(q, 'user');
   const thinking = appendMsg('답변을 생성 중입니다…', 'bot thinking');
@@ -1126,7 +1128,12 @@ async function sendChat() {
   input.focus();
 }
 
-document.getElementById('chat-input').addEventListener('keydown', e => {
+const chatInput = document.getElementById('chat-input');
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+});
+chatInput.addEventListener('keydown', e => {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
 });
 </script>
@@ -1149,7 +1156,7 @@ document.getElementById('chat-input').addEventListener('keydown', e => {
 예) 명예퇴직 신청 요건이 어떻게 되나요?</div>
   </div>
   <div id="chat-input-row">
-    <input id="chat-input" type="text" placeholder="법령 질문을 입력하세요..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}">
+    <textarea id="chat-input" placeholder="법령 질문을 입력하세요... (Shift+Enter: 줄바꿈)" rows="1"></textarea>
     <button id="chat-send" onclick="sendChat()">전송</button>
   </div>
 </div>
