@@ -1149,7 +1149,7 @@ document.getElementById('chat-input').addEventListener('keydown', e => {
 예) 명예퇴직 신청 요건이 어떻게 되나요?</div>
   </div>
   <div id="chat-input-row">
-    <input id="chat-input" type="text" placeholder="법령 질문을 입력하세요...">
+    <input id="chat-input" type="text" placeholder="법령 질문을 입력하세요..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}">
     <button id="chat-send" onclick="sendChat()">전송</button>
   </div>
 </div>
